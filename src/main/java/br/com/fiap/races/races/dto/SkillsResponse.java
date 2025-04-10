@@ -1,4 +1,6 @@
 package br.com.fiap.races.races.dto;
 
-public class SkillsResponse {
+import org.springframework.hateoas.Link;
+
+public record SkillsResponse(Long id, String nome, Link link) {
 }
