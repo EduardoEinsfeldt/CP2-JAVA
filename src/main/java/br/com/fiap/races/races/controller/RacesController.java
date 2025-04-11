@@ -61,7 +61,7 @@ public class RacesController {
                     content = @Content(schema = @Schema()))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<RacesResponse> readRaca(@PathVariable Long id) {
+    public ResponseEntity<RacesResponse> readRace(@PathVariable Long id) {
         Optional<Races> race = racesRepository.findById(id);
         if (race.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -79,13 +79,13 @@ public class RacesController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Races> updateRace(@PathVariable Long id,
-                                            @RequestBody Races raca) {
+                                            @RequestBody Races race) {
         Optional<Races> raceExistente = racesRepository.findById(id);
         if (raceExistente.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        raca.setId(id);
-        Races raceAtualizada = racesRepository.save(raca);
+        race.setId(id);
+        Races raceAtualizada = racesRepository.save(race);
         return new ResponseEntity<>(raceAtualizada, HttpStatus.CREATED);
     }
 
