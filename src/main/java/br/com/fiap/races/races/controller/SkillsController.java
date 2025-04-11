@@ -90,14 +90,24 @@ public class SkillsController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Skills> updateSkill(@PathVariable Long id,
-                                              @RequestBody Skills skill) {
+                                              @Valid @RequestBody SkillsRequest request) {
         Optional<Skills> skillExistente = skillsRepository.findById(id);
-        if (skillExistente.isEmpty()) {
+        Optional<Races> race = racesRepository.findById(request.getRacesId());
+
+        if (skillExistente.isEmpty() || race.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        skill.setId(id);
-        Skills skillAtualizada = skillsRepository.save(skill);
-        return new ResponseEntity<>(skillAtualizada, HttpStatus.CREATED);
+
+        Skills skillAtualizada = new Skills(
+                id,
+                request.getNome(),
+                request.getDescricao(),
+                request.getTipo(),
+                race.get()
+        );
+
+        Skills skillSalva = skillsRepository.save(skillAtualizada);
+        return new ResponseEntity<>(skillSalva, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Exclui uma habilidade por ID")
