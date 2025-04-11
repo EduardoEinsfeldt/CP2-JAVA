@@ -1,0 +1,86 @@
+Entidades:
+
+Races
+Com atributos
+id, nome, expectativa de vida, origem, descrição, corsangue.
+
+Skills
+Com atributos
+id, nome, descrição e o tipo de skill.
+
+CorSangue e TipoSkill são enums.
+
+
+
+
+RacesRequest e SkillsRequest
+Recebem os dados do usuário para criar ou atualizar objetos.
+
+Contêm validações com @NotBlank, @Size, @Min, @NotNull, etc.
+
+RacesResponse e SkillsResponse
+São enviados como resposta ao cliente.
+
+Incluem os dados principais e também um link HATEOAS (self) para navegação via API REST.
+
+
+
+✅ 3. Repository
+Usamos JpaRepository para criar repositórios para Races e Skills.
+
+Permite acesso ao banco de dados com métodos prontos como findAll(), save(), deleteById(), etc.
+
+
+
+✅ 4. Service
+RacesService e SkillsService
+Responsáveis pela lógica de conversão entre DTOs e entidades.
+
+Métodos principais:
+
+requestToEntity: converte um DTO de entrada em um objeto de domínio.
+
+entityToResponse: converte a entidade para o DTO de saída com link HATEOAS.
+
+findAll(): retorna uma lista paginada de respostas.
+
+
+
+
+✅ 5. Controller
+RacesController e SkillsController
+Endpoints expostos com os métodos HTTP:
+
+@PostMapping: cria uma nova raça ou habilidade
+
+@GetMapping: retorna lista ou item por ID
+
+@PutMapping: atualiza registros
+
+@DeleteMapping: exclui por ID
+
+Inclui Swagger/OpenAPI com @Operation e @ApiResponses
+
+
+
+✅ 6. Validações e Tratamento de Erros
+ValidationExceptionHandler
+Centraliza o tratamento de erros de validação (@Valid)
+
+Retorna um JSON com mensagens de erro por campo
+
+
+
+
+✅ 7. Swagger / OpenAPI
+Toda a API está documentada com anotações Swagger.
+
+A documentação é gerada automaticamente em /swagger-ui.html
+
+
+
+✅ 8. HATEOAS
+Cada resposta tem um link self indicando o próprio recurso.
+
+
+
