@@ -41,27 +41,13 @@ public class SkillsService {
     public SkillsResponse skillToResponse(Skills skill) {
         Races race = skill.getRaces();
 
-        Link linkRace = linkTo(
-                methodOn(RacesController.class).readRace(race.getId())
-        ).withSelfRel();
-
-        RacesResponse racesResponse = new RacesResponse(
-                race.getId(),
-                race.getNome(),
-                race.getExpectativaDeVida(),
-                race.getOrigem(),
-                race.getDescricao(),
-                race.getCorSangue(),
-                linkRace
-        );
-
         Link link = linkTo(
                 methodOn(SkillsController.class).readSkill(skill.getId())
         ).withSelfRel();
 
 
 
-        return new SkillsResponse(skill.getId(), skill.getNome(), skill.getDescricao(), skill.getTipo(), racesResponse, link);
+        return new SkillsResponse(skill.getId(), skill.getNome(), skill.getDescricao(), skill.getTipo(), skill.getRaces(), link);
     }
 
     public List<SkillsResponse> skillsToResponse(List<Skills> skills) {
