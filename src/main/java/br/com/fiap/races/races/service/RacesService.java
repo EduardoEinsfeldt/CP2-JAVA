@@ -41,7 +41,7 @@ public class RacesService {
                 methodOn(RacesController.class).readRace(race.getId())
         ).withSelfRel();
 
-        return new RacesResponse(race.getId(), race.getNome(), link);
+        return new RacesResponse(race.getId(), race.getNome(), race.getExpectativaDeVida(), race.getOrigem(), race.getDescricao(), race.getCorSangue(), link);
     }
 
     public List<RacesResponse> racesToResponse(List<Races> races) {
