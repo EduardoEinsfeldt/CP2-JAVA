@@ -1,6 +1,8 @@
 package br.com.fiap.races.races.service;
 
+import br.com.fiap.races.races.controller.RacesController;
 import br.com.fiap.races.races.controller.SkillsController;
+import br.com.fiap.races.races.dto.RacesResponse;
 import br.com.fiap.races.races.dto.SkillsRequest;
 import br.com.fiap.races.races.dto.SkillsResponse;
 import br.com.fiap.races.races.model.Races;
@@ -26,22 +28,40 @@ public class SkillsService {
         this.skillsRepository = skillsRepository;
     }
 
-    public Skills requestToSkill(SkillsRequest request, Races raca) {
+    public Skills requestToSkill(SkillsRequest request, Races race) {
         return new Skills(
                 null,
                 request.getNome(),
                 request.getDescricao(),
                 request.getTipo(),
-                raca
+                race
         );
     }
 
     public SkillsResponse skillToResponse(Skills skill) {
+        Races race = skill.getRaces();
+
+        Link linkRace = linkTo(
+                methodOn(RacesController.class).readRace(race.getId())
+        ).withSelfRel();
+
+        RacesResponse racesResponse = new RacesResponse(
+                race.getId(),
+                race.getNome(),
+                race.getExpectativaDeVida(),
+                race.getOrigem(),
+                race.getDescricao(),
+                race.getCorSangue(),
+                linkRace
+        );
+
         Link link = linkTo(
                 methodOn(SkillsController.class).readSkill(skill.getId())
         ).withSelfRel();
 
-        return new SkillsResponse(skill.getId(), skill.getNome(), link);
+
+
+        return new SkillsResponse(skill.getId(), skill.getNome(), skill.getDescricao(), skill.getTipo(), racesResponse, link);
     }
 
     public List<SkillsResponse> skillsToResponse(List<Skills> skills) {
